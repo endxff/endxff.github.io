@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DESARME · Ferramentas pequenas contra armadilhas grandes</title>
+<meta name="description" content="Ferramentas gratuitas para desarmar as armadilhas do feed infinito, do consumo descartável e do tempo mal pago. Sem anúncios e sem vigiar você.">
+<meta property="og:title" content="DESARME · Ferramentas pequenas contra armadilhas grandes">
+<meta property="og:description" content="Ferramentas gratuitas contra o feed infinito, o produto feito para quebrar e a hora de trabalho mal paga.">
+<meta property="og:image" content="https://endxff.github.io/capa.png">
+<meta property="og:url" content="https://endxff.github.io/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#12131a">
+<link rel="icon" type="image/png" href="icone.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --papel: #f6f4ef;
+  --superficie: #ffffff;
+  --tinta: #12131a;
+  --texto: #1b1d24;
+  --suave: #5f6470;
+  --linha: #e4e0d6;
+  --acento: #e8492a;
+  --acento-texto: #c23a1f;
+  --atencao: #0f766e;
+  --consumo: #b45309;
+  --tempo: #4338ca;
+  --sombra: 0 1px 2px rgba(18, 19, 26, .06), 0 14px 34px rgba(18, 19, 26, .08);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --papel: #0f1014;
+    --superficie: #17181f;
+    --tinta: #ecebe6;
+    --texto: #ecebe6;
+    --suave: #9a9ea8;
+    --linha: #272932;
+    --acento: #ff6a45;
+    --acento-texto: #ff8a6a;
+    --atencao: #2dd4bf;
+    --consumo: #f59e0b;
+    --tempo: #818cf8;
+    --sombra: 0 1px 2px rgba(0, 0, 0, .3), 0 14px 34px rgba(0, 0, 0, .4);
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--papel); color: var(--texto); font: 16px/1.6 Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+.wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+h1, h2, h3 { font-family: "Bricolage Grotesque", Inter, sans-serif; letter-spacing: -0.02em; line-height: 1.08; margin: 0; }
+h2 { font-size: clamp(30px, 4.4vw, 46px); }
+.olho { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--acento-texto); margin-bottom: 12px; }
+.lead { font-size: 18px; color: var(--suave); max-width: 640px; }
+section { padding: 96px 0; }
+
+/* Marca */
+.marca { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; letter-spacing: .06em; font-size: 20px; color: var(--tinta); }
+.marca svg { width: 32px; height: 32px; flex: none; }
+.fundo { fill: var(--tinta); }
+.corte { stroke: var(--tinta); }
+
+/* Topo */
+.topo { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--papel) 85%, transparent); backdrop-filter: blur(12px) saturate(160%); -webkit-backdrop-filter: blur(12px) saturate(160%); border-bottom: 1px solid var(--linha); }
+.topo .wrap { display: flex; align-items: center; gap: 20px; height: 64px; }
+.topo nav { margin-left: auto; display: flex; gap: 22px; font-size: 15px; }
+.topo nav a { text-decoration: none; color: var(--suave); }
+.topo nav a:hover { color: var(--texto); }
+@media (max-width: 720px) { .topo nav { display: none; } .topo .btn { margin-left: auto; } }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 22px; border-radius: 12px; border: 1px solid transparent; font: 600 16px/1 Inter, sans-serif; text-decoration: none; cursor: pointer; transition: transform .15s ease, background .15s ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn:focus-visible, input:focus-visible, .marcar:focus-within { outline: 3px solid var(--acento); outline-offset: 2px; }
+.btn-acento { background: var(--acento); color: #fff; }
+@media (prefers-color-scheme: dark) { .btn-acento { color: #1a0a05; } }
+.btn-contorno { background: transparent; color: var(--texto); border-color: var(--linha); }
+.btn-sm { padding: 9px 14px; font-size: 14px; border-radius: 10px; }
+.btn[disabled] { opacity: .55; cursor: not-allowed; transform: none; }
+
+/* Hero */
+.hero { padding: 80px 0 104px; }
+.hero .wrap { display: grid; grid-template-columns: 1.3fr .7fr; gap: 56px; align-items: center; }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } }
+.hero h1 { font-size: clamp(40px, 5.6vw, 66px); font-weight: 800; color: var(--tinta); }
+.hero h1 em { font-style: normal; color: var(--acento-texto); }
+.hero .lead { margin: 22px 0 32px; }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.armadilhas { background: var(--superficie); border: 1px solid var(--linha); border-radius: 22px; padding: 26px 26px 18px; box-shadow: var(--sombra); }
+.armadilhas .titulo { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--suave); margin-bottom: 8px; }
+.armadilhas ul { list-style: none; margin: 0; padding: 0; }
+.armadilhas li { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid var(--linha); }
+.armadilhas li:first-child { border-top: 0; }
+.armadilhas .nome { position: relative; font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 22px; color: var(--tinta); }
+.armadilhas .nome::after { content: ""; position: absolute; left: -4px; right: -4px; top: 55%; height: 4px; border-radius: 4px; background: var(--acento); transform-origin: left; transform: scaleX(0) rotate(-2deg); animation: risca .6s ease forwards; }
+.armadilhas li:nth-child(1) .nome::after { animation-delay: .4s; }
+.armadilhas li:nth-child(2) .nome::after { animation-delay: 1s; }
+.armadilhas li:nth-child(3) .nome::after { animation-delay: 1.6s; }
+.armadilhas small { display: block; color: var(--suave); font-size: 14px; }
+.armadilhas .bolinha { flex: none; width: 12px; height: 12px; border-radius: 50%; }
+@keyframes risca { to { transform: scaleX(1) rotate(-2deg); } }
+@media (prefers-reduced-motion: reduce) { .armadilhas .nome::after { animation: none; transform: scaleX(1) rotate(-2deg); } .btn:hover { transform: none; } }
+
+/* Ferramentas */
+.frentes { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 30px; }
+.frente { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; padding: 7px 14px; border-radius: 999px; background: var(--superficie); border: 1px solid var(--linha); }
+.frente i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+@media (max-width: 960px) { .grade { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .grade { grid-template-columns: 1fr; } }
+.ferramenta { --cor: var(--atencao); position: relative; display: flex; flex-direction: column; background: var(--superficie); border: 1px solid var(--linha); border-radius: 20px; padding: 24px; min-height: 250px; }
+.ferramenta.ativa { border-color: color-mix(in srgb, var(--cor) 45%, var(--linha)); box-shadow: var(--sombra); }
+.ferramenta .icone { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; background: color-mix(in srgb, var(--cor) 14%, transparent); color: var(--cor); margin-bottom: 16px; }
+.ferramenta .icone svg { width: 24px; height: 24px; }
+.ferramenta.breve .icone { filter: grayscale(.85); opacity: .55; }
+.ferramenta h3 { font-size: 22px; margin-bottom: 4px; color: var(--tinta); }
+.ferramenta .tag-frente { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--cor); }
+.ferramenta.breve .tag-frente { color: var(--suave); }
+.ferramenta p { color: var(--suave); font-size: 15px; margin: 10px 0 18px; flex: 1; }
+.status { position: absolute; top: 20px; right: 20px; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 999px; }
+.status.ok { background: color-mix(in srgb, var(--cor) 16%, transparent); color: var(--cor); }
+.status.espera { background: color-mix(in srgb, var(--suave) 14%, transparent); color: var(--suave); }
+.ferramenta .acao { font-weight: 600; font-size: 15px; text-decoration: none; color: var(--cor); }
+.ferramenta.breve .acao { color: var(--texto); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--linha); }
+.f-atencao { --cor: var(--atencao); }
+.f-consumo { --cor: var(--consumo); }
+.f-tempo { --cor: var(--tempo); }
+
+/* Lista */
+.lista-bloco { --lb: #f6f4ef; background: #12131a; color: var(--lb); border-radius: 28px; padding: 56px; display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; }
+@media (max-width: 900px) { .lista-bloco { grid-template-columns: 1fr; padding: 32px 20px; } }
+.lista-bloco h2 { color: var(--lb); }
+.lista-bloco .lead { color: color-mix(in srgb, var(--lb) 70%, transparent); }
+.lista-bloco .olho { color: #ff8a6a; }
+form { display: grid; gap: 14px; }
+.rotulo { font-size: 14px; font-weight: 600; color: color-mix(in srgb, var(--lb) 80%, transparent); }
+input[type="email"] { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--lb) 25%, transparent); background: color-mix(in srgb, var(--lb) 6%, transparent); color: var(--lb); font: 16px Inter, sans-serif; }
+input[type="email"]::placeholder { color: color-mix(in srgb, var(--lb) 45%, transparent); }
+.interesses { display: grid; gap: 8px; }
+.marcar { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; background: color-mix(in srgb, var(--lb) 6%, transparent); border: 1px solid color-mix(in srgb, var(--lb) 12%, transparent); cursor: pointer; }
+.marcar input { margin-top: 4px; width: 18px; height: 18px; accent-color: var(--acento); flex: none; }
+.marcar b { display: block; font-size: 15px; }
+.marcar small { display: block; font-size: 13px; color: color-mix(in srgb, var(--lb) 60%, transparent); }
+.consentimento { font-size: 13px; color: color-mix(in srgb, var(--lb) 65%, transparent); }
+.consentimento .marcar { background: transparent; border: 0; padding: 0; }
+.aviso-lista { font-size: 14px; color: #ffb59f; margin: 0; }
+@media (prefers-color-scheme: dark) {
+  .lista-bloco { background: #1c1d25; border: 1px solid var(--linha); }
+}
+
+/* Princípios */
+.principios { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 36px; }
+@media (max-width: 900px) { .principios { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .principios { grid-template-columns: 1fr; } }
+.principio { border-top: 3px solid var(--tinta); padding-top: 16px; }
+.principio h3 { font-size: 20px; margin-bottom: 6px; color: var(--tinta); }
+.principio p { margin: 0; color: var(--suave); font-size: 15px; }
+.pix { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; padding: 20px 22px; border-radius: 16px; background: var(--superficie); border: 1px solid var(--linha); }
+.pix p { margin: 0; flex: 1 1 280px; color: var(--suave); }
+.pix code { font-size: 14px; padding: 9px 12px; border-radius: 10px; background: var(--papel); border: 1px solid var(--linha); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+footer { border-top: 1px solid var(--linha); padding: 32px 0 48px; color: var(--suave); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+footer a { color: var(--suave); }
+
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); opacity: 0; background: var(--tinta); color: var(--papel); padding: 12px 18px; border-radius: 12px; font-weight: 600; transition: all .25s ease; pointer-events: none; z-index: 100; }
+.toast.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="0 0 48 48">
+    <rect class="fundo" width="48" height="48" rx="12"/>
+    <path d="M15 12h8a12 12 0 0 1 0 24h-8z" fill="none" stroke="#e8492a" stroke-width="5" stroke-linejoin="round"/>
+    <path class="corte" d="M11 34 L37 14" stroke-width="5"/>
+  </symbol>
+</svg>
+
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="#" aria-label="DESARME, início"><svg><use href="#logo"/></svg>DESARME</a>
+    <nav aria-label="Seções">
+      <a href="#ferramentas">Ferramentas</a>
+      <a href="#lista">Lista</a>
+      <a href="#principios">Princípios</a>
+    </nav>
+    <a class="btn btn-acento btn-sm" href="#lista">Entrar na lista</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="olho">Ferramentas livres, feitas no Brasil</span>
+        <h1>Ferramentas pequenas contra <em>armadilhas grandes.</em></h1>
+        <p class="lead">O feed que não acaba. O produto feito para quebrar. A hora de trabalho que vale menos do que parece. A Desarme faz ferramentas gratuitas para você enxergar essas armadilhas e sair delas.</p>
+        <div class="ctas">
+          <a class="btn btn-acento" href="#ferramentas">Conhecer as ferramentas</a>
+          <a class="btn btn-contorno" href="#lista">Avisa quando sair coisa nova</a>
+        </div>
+      </div>
+      <div class="armadilhas" aria-label="Armadilhas que a Desarme ataca">
+        <div class="titulo">Armadilhas na mira</div>
+        <ul>
+          <li><span class="bolinha" style="background:var(--atencao)"></span><div><span class="nome">Rolagem infinita</span><small>Seu tempo virando métrica de outra pessoa</small></div></li>
+          <li><span class="bolinha" style="background:var(--consumo)"></span><div><span class="nome">Feito para quebrar</span><small>Comprar de novo em vez de consertar</small></div></li>
+          <li><span class="bolinha" style="background:var(--tempo)"></span><div><span class="nome">Hora mal paga</span><small>O tempo que o trabalho come e ninguém conta</small></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="ferramentas" style="padding-top:0">
+    <div class="wrap">
+      <span class="olho">Ferramentas</span>
+      <h2>Uma no ar. Cinco a caminho.</h2>
+      <div class="frentes" aria-label="Frentes">
+        <span class="frente"><i style="background:var(--atencao)"></i>Atenção</span>
+        <span class="frente"><i style="background:var(--consumo)"></i>Consumo</span>
+        <span class="frente"><i style="background:var(--tempo)"></i>Tempo</span>
+      </div>
+
+      <div class="grade">
+        <article class="ferramenta ativa f-atencao">
+          <span class="status ok">No ar</span>
+          <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h5l2-5 4 10 2-5h7"/></svg></div>
+          <span class="tag-frente">Atenção</span>
+          <h3>Autoritmo</h3>
+          <p>Esconde Reels, Stories e Explorar do Instagram. Mensagens, notificações e postagens continuam. Para computador e iPhone.</p>
+          <a class="acao" href="autoritmo/">Conhecer e baixar →</a>
+        </article>
+
+        <article class="ferramenta breve f-atencao">
+          <span class="status espera">Em breve</span>
+          <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m21 21-6.5-6.5"/><path d="M8 12V9M10 12V7M12 12v-2"/></svg></div>
+          <span class="tag-frente">Atenção</span>
+          <h3>Auditoria do Algoritmo</h3>
+          <p>Mostra como seu feed está moldando sua atenção: os temas que se repetem e quanta variedade de fato chega até você.</p>
+          <a class="acao" href="#lista" data-interesse="auditoria">Quero saber quando sair</a>
+        </article>
+
+        <article class="ferramenta breve f-atencao">
+          <span class="status espera">Em breve</span>
+          <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h12M6 22h12"/><path d="M7 2c0 5 10 5 10 10S7 17 7 22"/><path d="M17 2c0 5-10 5-10 10s10 5 10 10"/></svg></div>
+          <span class="tag-frente">Atenção</span>
+          <h3>Slow Feed</h3>
+          <p>Transforma feeds infinitos em sessões com começo, meio e fim, no tamanho que você decidir antes de abrir.</p>
+          <a class="acao" href="#lista" data-interesse="slowfeed">Quero saber quando sair</a>
+        </article>
+
+        <article class="ferramenta breve f-consumo">
+          <span class="status espera">Em breve</span>
+          <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8V21h3.2l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></div>
+          <span class="tag-frente">Consumo</span>
+          <h3>Companheiro do Reparo</h3>
+          <p>Antes de comprar, avalia se o produto tem conserto, peças disponíveis, manutenção possível e quanto tempo deve durar.</p>
+          <a class="acao" href="#lista" data-interesse="reparo">Quero saber quando sair</a>
+        </article>
+
+        <article class="ferramenta breve f-consumo">
+          <span class="status espera">Em breve</span>
+          <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg></div>
+          <span class="tag-frente">Consumo</span>
+          <h3>Repare Antes de Comprar</h3>
+          <p>Coloca conserto, usado, recondicionado e reaproveitamento lado a lado com a compra nova, como alternativas reais.</p>
+          <a class="acao" href="#lista" data-interesse="repare">Quero saber quando sair</a>
+        </article>
+
+        <article class="ferramenta breve f-tempo">
+          <span class="status espera">Em breve</span>
+          <div class="icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <span class="tag-frente">Tempo</span>
+          <h3>Hora Real</h3>
+          <p>Calcula quanto vale de verdade a sua hora, somando deslocamento, custos e todo o tempo que você entrega ao trabalho.</p>
+          <a class="acao" href="#lista" data-interesse="horareal">Quero saber quando sair</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="lista" style="padding-top:0">
+    <div class="wrap">
+      <div class="lista-bloco">
+        <div>
+          <span class="olho">Lista</span>
+          <h2>Fica sabendo primeiro.</h2>
+          <p class="lead">Um e-mail quando uma ferramenta nova sair, e só. Marque as que te interessam: é assim que a gente decide qual vem primeiro.</p>
+        </div>
+        <form id="form-lista" novalidate>
+          <label class="rotulo" for="email">Seu e-mail</label>
+          <input type="email" id="email" name="email" placeholder="voce@exemplo.com" autocomplete="email" required>
+
+          <span class="rotulo" id="rotulo-interesses">Me avisa sobre</span>
+          <div class="interesses" role="group" aria-labelledby="rotulo-interesses">
+            <label class="marcar"><input type="checkbox" name="interesse" value="auditoria"><span><b>Auditoria do Algoritmo</b><small>Como seu feed molda sua atenção</small></span></label>
+            <label class="marcar"><input type="checkbox" name="interesse" value="slowfeed"><span><b>Slow Feed</b><small>Sessões com fim definido por você</small></span></label>
+            <label class="marcar"><input type="checkbox" name="interesse" value="reparo"><span><b>Companheiro do Reparo</b><small>Reparabilidade antes de comprar</small></span></label>
+            <label class="marcar"><input type="checkbox" name="interesse" value="repare"><span><b>Repare Antes de Comprar</b><small>Conserto, usado e recondicionado como opção</small></span></label>
+            <label class="marcar"><input type="checkbox" name="interesse" value="horareal"><span><b>Hora Real</b><small>Quanto vale sua hora de verdade</small></span></label>
+          </div>
+
+          <div class="consentimento">
+            <label class="marcar"><input type="checkbox" id="consentimento" required><span>Aceito receber e-mails da Desarme sobre lançamentos. Posso sair da lista quando quiser, por um link em todo e-mail.</span></label>
+          </div>
+
+          <button class="btn btn-acento" type="submit" id="enviar">Entrar na lista</button>
+          <p class="aviso-lista" id="aviso-lista" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="principios" style="padding-top:0">
+    <div class="wrap">
+      <span class="olho">Princípios</span>
+      <h2>Do lado de quem usa.</h2>
+      <div class="principios">
+        <div class="principio"><h3>Grátis de verdade</h3><p>Sem versão paga escondendo o que importa.</p></div>
+        <div class="principio"><h3>Sem anúncios</h3><p>Não faz sentido combater a armadilha vendendo outra.</p></div>
+        <div class="principio"><h3>Sem vigiar você</h3><p>As ferramentas não rastreiam nem enviam seus dados para ninguém.</p></div>
+        <div class="principio"><h3>Em português</h3><p>Feito no Brasil, pensado para a nossa realidade.</p></div>
+      </div>
+      <div class="pix">
+        <p>A Desarme se sustenta com Pix voluntário, de qualquer valor.</p>
+        <code id="pix-chave"></code>
+        <button class="btn btn-acento btn-sm" type="button" id="copiar-pix">Copiar chave Pix</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="marca" href="#" style="font-size:16px"><svg style="width:24px;height:24px"><use href="#logo"/></svg>DESARME</a>
+    <span>Feito em Curitiba · <a href="https://github.com/endxff">GitHub</a></span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  var PIX = '41a18159-f98f-4753-85b4-6d18114e8e90';
+
+  /* Lista de e-mail: preencha 'acao' com o endereço do formulário do MailerLite
+     (e os grupos de interesse) para ligar o envio. Enquanto estiver vazio,
+     o formulário fica visível mas não envia nada. */
+  var LISTA = {
+    acao: '',
+    grupos: { auditoria: '', slowfeed: '', reparo: '', repare: '', horareal: '' }
+  };
+
+  var toast = document.getElementById('toast');
+  function avisar(msg) {
+    toast.textContent = msg;
+    toast.classList.add('on');
+    setTimeout(function () { toast.classList.remove('on'); }, 2400);
+  }
+
+  // "Quero saber quando sair" já marca a ferramenta na lista
+  document.querySelectorAll('[data-interesse]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var cb = document.querySelector('input[name="interesse"][value="' + link.getAttribute('data-interesse') + '"]');
+      if (cb) cb.checked = true;
+      setTimeout(function () { document.getElementById('email').focus({ preventScroll: true }); }, 500);
+    });
+  });
+
+  var form = document.getElementById('form-lista');
+  var aviso = document.getElementById('aviso-lista');
+  var botao = document.getElementById('enviar');
+  if (!LISTA.acao) {
+    botao.disabled = true;
+    botao.textContent = 'Lista abre em breve';
+    aviso.textContent = 'Estamos terminando de preparar a lista. Volte em alguns dias.';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!LISTA.acao) return;
+    var email = document.getElementById('email');
+    if (!email.checkValidity()) { aviso.textContent = 'Confere o e-mail: parece que falta algo.'; email.focus(); return; }
+    if (!document.getElementById('consentimento').checked) { aviso.textContent = 'Marque a caixa de consentimento para entrar na lista.'; return; }
+    var dados = new FormData();
+    dados.append('fields[email]', email.value.trim());
+    form.querySelectorAll('input[name="interesse"]:checked').forEach(function (cb) {
+      var grupo = LISTA.grupos[cb.value];
+      if (grupo) dados.append('groups[]', grupo);
+    });
+    botao.disabled = true;
+    botao.textContent = 'Enviando…';
+    fetch(LISTA.acao, { method: 'POST', body: dados, mode: 'no-cors' })
+      .then(function () {
+        form.reset();
+        aviso.textContent = 'Pronto! Confira seu e-mail para confirmar a inscrição.';
+      })
+      .catch(function () { aviso.textContent = 'Não consegui enviar agora. Tenta de novo em instantes.'; })
+      .then(function () { botao.disabled = false; botao.textContent = 'Entrar na lista'; });
+  });
+
+  // Pix
+  document.getElementById('pix-chave').textContent = PIX;
+  document.getElementById('copiar-pix').addEventListener('click', function () {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(PIX).then(function () { avisar('Chave Pix copiada. Valeu!'); });
+    }
+  });
+})();
+</script>
+</body>
+</html>
